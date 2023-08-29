@@ -48,24 +48,34 @@
         }
     </style>
     <script>
-        var callAPI = (num1, num2) => {
-            var myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
-            var raw = JSON.stringify({ "num1": num1, "num2": num2 });
-            var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: raw,
-                redirect: 'follow'
-            };
-            fetch("https://9pritwyn6b.execute-api.eu-central-1.amazonaws.com/dev", requestOptions)
-                .then(response => response.text())
-                .then(result => {
-                    var resultObj = JSON.parse(result);
-                    document.getElementById("result").textContent = "Result: " + resultObj.result;
-                })
-                .catch(error => console.log('error', error));
+    var callAPI = (num1, num2) => {
+        // Convert input values to numbers
+        var number1 = parseFloat(num1);
+        var number2 = parseFloat(num2);
+
+        // Check if conversion is successful
+        if (isNaN(number1) || isNaN(number2)) {
+            alert("Please enter valid numbers.");
+            return;
         }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({ "num1": number1, "num2": number2 });
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        fetch("https://9pritwyn6b.execute-api.eu-central-1.amazonaws.com/dev", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                var resultObj = JSON.parse(result);
+                document.getElementById("result").textContent = "Result: " + resultObj.result;
+            })
+            .catch(error => console.log('error', error));
+    }
     </script>
 </head>
 <body>
